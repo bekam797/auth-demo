@@ -1,10 +1,12 @@
 import React from "react"
+import { BrowserRouter as Router } from "react-router-dom"
+import AppContent from "./components/AppContent"
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      hello
-    </div>
+    <Router>
+      <AppContent />
+    </Router>
   )
 }
 
