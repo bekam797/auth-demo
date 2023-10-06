@@ -1,24 +1,17 @@
+/* eslint-disable no-undef */
 module.exports = {
-  "env": {
-      "browser": true,
-      "es2021": true
+  env: {
+    browser: true,
+    es2021: true
   },
-  "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:react/recommended",
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-      "ecmaVersion": "latest",
-      "sourceType": "module"
+  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:react/recommended"],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module"
   },
-  "plugins": [
-      "@typescript-eslint",
-      "react",
-      "prettier"
-  ],
-  "rules": {
+  plugins: ["@typescript-eslint", "react", "prettier"],
+  rules: {
     "prettier/prettier": [
       "warn",
       {
@@ -33,6 +26,6 @@ module.exports = {
         useTabs: false
       }
     ],
-    quotes: ["error", "double"],
+    quotes: ["error", "double"]
   }
 }
