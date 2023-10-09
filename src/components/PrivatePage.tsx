@@ -1,8 +1,8 @@
 import React from "react"
-import { useAuthDispatch } from "../contexts/AuthContext"
+import { useAuth } from "../contexts/AuthContext"
 
 const PrivatePage: React.FC = () => {
-  const dispatch = useAuthDispatch()
+  const { dispatch } = useAuth()
 
   const handleLogout = (): void => {
     dispatch({ type: "LOGOUT" })

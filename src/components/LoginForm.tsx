@@ -1,10 +1,10 @@
 import React, { useState } from "react"
-import { useAuthDispatch } from "../contexts/AuthContext"
+import { useAuth } from "../contexts/AuthContext"
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const dispatch = useAuthDispatch()
+  const { dispatch } = useAuth()
 
   const handleLogin = (): void => {
     if (email && password) {

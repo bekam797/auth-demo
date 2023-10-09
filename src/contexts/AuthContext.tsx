@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useContext, Dispatch } from "react"
+import React, { useEffect, createContext, useReducer, useContext, Dispatch } from "react"
 
 type State = {
   isAuthenticated: boolean
@@ -8,19 +8,22 @@ type Action = {
   type: "LOGIN" | "LOGOUT"
 }
 
-const AuthStateContext = createContext<State | undefined>(undefined)
-const AuthDispatchContext = createContext<Dispatch<Action> | undefined>(undefined)
+type AuthContextType = {
+  state: State
+  dispatch: Dispatch<Action>
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "LOGIN":
-      localStorage.setItem("token", "random_token")
       return { ...state, isAuthenticated: true }
     case "LOGOUT":
-      localStorage.removeItem("token")
       return { ...state, isAuthenticated: false }
     default:
-      throw new Error(`Unknown action: ${action.type}`)
+      console.log(`Unknown action: ${action.type}`)
+      return state
   }
 }
 
@@ -29,25 +32,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isAuthenticated: !!localStorage.getItem("token")
   })
 
-  return (
-    <AuthStateContext.Provider value={state}>
-      <AuthDispatchContext.Provider value={dispatch}>{children}</AuthDispatchContext.Provider>
-    </AuthStateContext.Provider>
-  )
+  useEffect(() => {
+    if (state.isAuthenticated) {
+      localStorage.setItem("token", "random_token")
+    } else {
+      localStorage.removeItem("token")
+    }
+  }, [state.isAuthenticated])
+
+  return <AuthContext.Provider value={{ state, dispatch }}>{children}</AuthContext.Provider>
 }
 
-export const useAuthState = (): State => {
-  const context = useContext(AuthStateContext)
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext)
   if (!context) {
     throw new Error("Error useAuthState")
-  }
-  return context
-}
-
-export const useAuthDispatch = (): Dispatch<Action> => {
-  const context = useContext(AuthDispatchContext)
-  if (!context) {
-    throw new Error("Error useAuthDispatch")
   }
   return context
 }
